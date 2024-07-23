@@ -13,7 +13,11 @@ class StudentController extends Controller
      */
     public function index()
     {
-        return Student::all();
+        // return Student::all();
+
+        $data['students'] = Student::all();
+        return view('student.index', $data);
+
         //return Student::where('province', 'Arizona')->get();
          
         //return Student::where('province', 'Arizona')
@@ -47,7 +51,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-       
+       return view ('Student.create');
     }
 
     /**
@@ -56,17 +60,18 @@ class StudentController extends Controller
     public function store(Request $request)
     {
         $student = new Student();
-        // $student->fname  = $request['fname'];
-        // $student->lname = $request['lname'];
-        // $student->email = $request['email'];
-        // $student->phone = $request['phone'];
-        // $student->address = $request['address'];
-        // $student->city = $request['city'];
-        // $student->province = $request['province'];
-        // $student->zip = $request['zip'];
-        // $student->birthdate = $request['birthdate'];
-        // $student->save();
-
+        $student->fname  = $request['fname'];
+        $student->lname = $request['lname'];
+        $student->email = $request['email'];
+        $student->phone = $request['phone'];
+        $student->address = $request['address'];
+        $student->city = $request['city'];
+        $student->province = $request['province'];
+        $student->zip = $request['zip'];
+        $student->birthdate = $request['birthdate'];
+        $student->save();
+        
+        return redirect()->to('student');
     }
 
     /**
@@ -90,7 +95,8 @@ class StudentController extends Controller
      */
     public function edit(string $id)
     {
-        //
+      $data['student'] = Student::find($id);
+      return view('student.edit', $data);
     }
 
     /**
@@ -109,6 +115,8 @@ class StudentController extends Controller
         $student->zip = $request['zip'];
         $student->birthdate = $request['birthdate'];
         $student->save();
+
+        return redirect()->back();
     }
 
     /**
@@ -118,5 +126,6 @@ class StudentController extends Controller
     {
         $student = Student::find($id);
         $student->delete();
+        return redirect()->to('student');
     }
 }
